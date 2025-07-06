@@ -1,0 +1,15 @@
+# Dépendances locales
+node_modules
+
+# Dossier de build (Docker le génère à l'intérieur du conteneur)
+dist
+
+# Fichiers de logs npm
+npm-debug.log
+
+# Fichiers de configuration de l'éditeur
+.vscode/
+.idea/
+
+# Fichiers d'environnement (si vous en ajoutez plus tard)
+.env* 

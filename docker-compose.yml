@@ -1,0 +1,31 @@
+# Spécifie la version de la syntaxe Docker Compose.
+services:
+
+  # Le service pour notre backend Flask.
+  backend:
+    # Indique à Docker Compose de construire l'image à partir du Dockerfile
+    # qui se trouve dans le dossier ./backend.
+    build: ./backend
+    # Nom convivial pour le conteneur qui sera créé.
+    container_name: nlp-backend
+    # Fait le lien entre le port 5000 de notre machine hôte et le port 5000 du conteneur.
+    # Ainsi, on peut accéder à l'API via http://localhost:5000.
+    ports:
+      - "5000:5000"
+    # Redémarre automatiquement le conteneur si l'application plante.
+    restart: unless-stopped
+
+  # Le service pour notre frontend React/Nginx.
+  frontend:
+    # Construit l'image à partir du Dockerfile dans ./frontend.
+    build: ./frontend
+    container_name: nlp-frontend
+    # Lie le port 8080 de la machine hôte au port 80 du conteneur (où Nginx écoute).
+    # On utilise 8080 car le port 80 est souvent réservé sur les systèmes.
+    ports:
+      - "8080:80"
+    # Indique que le service frontend dépend du service backend.
+    # Docker Compose s'assurera de démarrer le backend avant le frontend.
+    depends_on:
+      - backend
+    restart: unless-stopped 

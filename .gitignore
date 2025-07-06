@@ -1,0 +1,49 @@
+# Fichiers et dossiers générés par Python et les environnements virtuels
+# On ignore complètement les dossiers venv, peu importe où ils se trouvent.
+**/venv/
+**/__pycache__/
+*.pyc
+
+# Dépendances du projet Frontend (très volumineux et inutile à versionner)
+**/node_modules/
+
+# Fichiers de build du Frontend (générés automatiquement)
+**/dist/
+**/build/
+
+# Fichiers de log
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Fichiers d'environnement
+# Contiennent souvent des clés d'API ou des mots de passe. À ne JAMAIS versionner.
+.env
+.env.local
+.env.*.local
+
+# Fichiers spécifiques aux systèmes d'exploitation
+.DS_Store
+Thumbs.db
+
+# Fichiers de configuration des éditeurs de code
+.vscode/
+.idea/
+
+# Fichiers de données sensibles ou trop volumineux
+# Il est bon d'ignorer explicitement les datasets pour éviter de les pousser par erreur.
+*.csv
+*.joblib
+
+# Cependant, on veut versionner nos modèles et les données d'entraînement du dossier ml/input
+# On utilise le '!' pour faire une exception à la règle précédente.
+!ml/input/train.csv
+!ml/input/test.csv
+!ml/input/valid.csv
+!ml/saved_models/sentiment_model.joblib
+!ml/saved_models/tfidf_vectorizer.joblib
+
+# On doit aussi faire une exception pour les modèles copiés dans le backend.
+!backend/models/sentiment_model.joblib
+!backend/models/tfidf_vectorizer.joblib

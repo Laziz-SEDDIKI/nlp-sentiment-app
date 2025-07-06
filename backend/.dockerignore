@@ -1,0 +1,10 @@
+# Ignorer l'environnement virtuel
+venv/
+__pycache__/
+
+# Fichiers de configuration de l'éditeur
+.vscode/
+.idea/
+
+# Fichiers d'environnement (si vous en ajoutez plus tard)
+.env 
