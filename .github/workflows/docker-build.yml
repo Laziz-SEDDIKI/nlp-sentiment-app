@@ -1,0 +1,43 @@
+# Nom du workflow qui apparaîtra dans l'onglet "Actions" de GitHub.
+name: Build and Push Docker Images
+
+# Déclencheur : ce workflow s'exécute à chaque 'push' sur la branche 'main'.
+on:
+  push:
+    branches: [ "main" ]
+
+# Les tâches à exécuter.
+jobs:
+  build_and_push:
+    # Le type de machine virtuelle à utiliser.
+    runs-on: ubuntu-latest
+
+    # Les étapes (steps) qui composent notre job.
+    steps:
+      # Étape 1: Récupérer le code du dépôt.
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Étape 2: Se connecter à Docker Hub.
+      # Utilise les secrets que vous venez de configurer.
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      # Étape 3: Construire et pousser l'image du backend.
+      - name: Build and push backend image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./backend      # Le dossier où se trouve le Dockerfile
+          push: true              # On pousse l'image après la construction
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/nlp-backend:latest # Nom de l'image
+
+      # Étape 4: Construire et pousser l'image du frontend.
+      - name: Build and push frontend image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./frontend     # Le dossier où se trouve le Dockerfile
+          push: true              # On pousse l'image après la construction
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/nlp-frontend:latest # Nom de l'image
