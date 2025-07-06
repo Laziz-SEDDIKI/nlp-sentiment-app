@@ -41,3 +41,7 @@ jobs:
           context: ./frontend     # Le dossier où se trouve le Dockerfile
           push: true              # On pousse l'image après la construction
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/nlp-frontend:latest # Nom de l'image
+
+
+
+
