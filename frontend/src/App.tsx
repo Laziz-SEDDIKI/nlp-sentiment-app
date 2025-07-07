@@ -9,40 +9,77 @@ const styles: { [key: string]: React.CSSProperties } = {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
+        justifyContent: 'center',
+        minHeight: '100vh',
         padding: '2rem',
-        fontFamily: 'sans-serif',
-        color: '#333'
+        fontFamily: "'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif",
+        color: '#EAEAEA',
+        background: 'linear-gradient(135deg, #2C3E50, #4A6E8A)',
+        textAlign: 'center',
     },
     title: {
-        fontSize: '2.5rem',
+        fontSize: '3rem',
+        fontWeight: 600,
         marginBottom: '2rem',
+        textShadow: '2px 2px 4px rgba(0,0,0,0.2)',
     },
     textarea: {
         width: '80%',
+        maxWidth: '600px',
         minHeight: '150px',
-        padding: '1rem',
+        padding: '1.2rem',
         fontSize: '1.2rem',
-        borderRadius: '8px',
-        border: '1px solid #ccc',
-        marginBottom: '1rem',
+        borderRadius: '12px',
+        border: 'none',
+        marginBottom: '1.5rem',
+        backgroundColor: 'rgba(255, 255, 255, 0.08)',
+        color: '#FFFFFF',
+        boxShadow: 'inset 0 2px 4px rgba(0,0,0,0.3)',
+        resize: 'vertical',
     },
     button: {
-        padding: '1rem 2rem',
+        padding: '1rem 2.5rem',
         fontSize: '1.2rem',
-        backgroundColor: '#007BFF',
+        backgroundColor: '#1ABC9C',
         color: 'white',
         border: 'none',
-        borderRadius: '8px',
+        borderRadius: '50px',
         cursor: 'pointer',
+        fontWeight: 'bold',
+        textTransform: 'uppercase',
+        letterSpacing: '1px',
+        boxShadow: '0 4px 15px rgba(0,0,0,0.2)',
+        transition: 'transform 0.2s ease',
     },
-    result: {
-        marginTop: '2rem',
-        padding: '1rem',
-        borderRadius: '8px',
+    resultContainer: {
+        marginTop: '2.5rem',
+        padding: '2rem',
+        borderRadius: '12px',
         width: '80%',
-        textAlign: 'center',
+        maxWidth: '600px',
         fontSize: '1.5rem',
-    }
+        backgroundColor: 'rgba(0, 0, 0, 0.2)',
+        boxShadow: '0 4px 15px rgba(0,0,0,0.2)',
+        minHeight: '130px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        transition: 'opacity 0.5s ease',
+    },
+    predictionText: {
+        margin: '0.5rem 0',
+        fontWeight: 'bold',
+        textTransform: 'capitalize',
+    },
+    confidenceText: {
+        margin: '0.5rem 0',
+        fontSize: '1.2rem',
+        color: '#bdc3c7',
+    },
+    error: {
+        color: '#FF6B6B',
+        fontWeight: 'bold',
+    },
 };
 
 import { useState } from 'react';
@@ -122,13 +159,19 @@ function App() {
       </button>
 
       {/* --- Affichage conditionnel des résultats --- */}
-      <div style={styles.result}>
-        {error && <p style={{ color: 'red' }}>{error}</p>}
+      <div style={styles.resultContainer}>
+        {isLoading && <div style={{color: "white"}}>Analyse en cours...</div>}
+        {error && <p style={styles.error}>{error}</p>}
         
         {resultat && (
             <div>
-                <p>Sentiment Prédit : <strong>{resultat.prediction_finale}</strong></p>
-                <p>Confiance : {Math.round(resultat.confiance * 100)}%</p>
+                <p style={{
+                    ...styles.predictionText,
+                    color: resultat.prediction_finale === 'positif' ? '#1ABC9C' : resultat.prediction_finale === 'negatif' ? '#E74C3C' : '#95A5A6'
+                }}>
+                  <strong>{resultat.prediction_finale}</strong>
+                </p>
+                <p style={styles.confidenceText}>Confiance : {Math.round(resultat.confiance * 100)}%</p>
             </div>
         )}
       </div>

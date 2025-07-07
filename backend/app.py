@@ -19,9 +19,12 @@ from nltk.corpus import stopwords
 app = Flask(__name__)
 
 # --- CONFIGURATION DE CORS ---
-# 2. INITIALISER CORS, en spécifiant que seules les requêtes
-# venant de l'origine de notre app React sont autorisées.
-CORS(app, resources={r"/predict": {"origins": "http://localhost:5173"}})
+# On autorise les requêtes depuis le front-end local et le front-end déployé sur Render.
+allowed_origins = [
+    "http://localhost:5173",
+    "https://nlp-frontend.onrender.com"  # L'URL de votre frontend sur Render
+]
+CORS(app, resources={r"/predict": {"origins": allowed_origins}})
 # ---------------------------
 
 # Charger le modèle et le vectoriseur sauvegardés
@@ -57,6 +60,7 @@ def home():
 # On définit la route '/predict' qui accepte les requêtes POST
 @app.route('/predict', methods=['POST'])
 def predict():
+    print("REQUETE REÇUE SUR /predict")
     try:
         # Récupérer les données JSON envoyées avec la requête
         data = request.get_json()
