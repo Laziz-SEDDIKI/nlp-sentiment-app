@@ -40,6 +40,11 @@ vectorizer = joblib.load(vectorizer_path)
 # C'est une copie exacte de la fonction `nettoyer_texte_v2` de notre notebook.
 # Il est crucial d'appliquer EXACTEMENT le même pré-traitement.
 stop_words_francais = set(stopwords.words('french'))
+
+# On retire certains mots de la liste des stopwords car ils sont importants pour le sentiment.
+mots_a_garder = {'pas', 'ne', 'plus', 'bien', 'trop', 'très'}
+stop_words_francais = stop_words_francais - mots_a_garder
+
 ponctuation_a_supprimer = string.punctuation.replace("'", "")
 
 def nettoyer_texte_v2(texte):
